@@ -15,7 +15,6 @@ def separaInfo(stringInfo):
     stringInfo = stringInfo.replace("</li>","")
 
     splited = stringInfo.split("\n")#We need to split it to return the category and the amount of hours separated into a string
-
     title = splited[1]
     hours = splited[2]
 
@@ -27,11 +26,12 @@ def separaInfo(stringInfo):
 def creaArrInfo(arrElements):
     #We separete the given information into their different categories used
     mainStory = separaInfo(arrElements[0])
-    mainPExtras = separaInfo(arrElements[1])
-    completionist = separaInfo(arrElements[2])
-    speedRun = separaInfo(arrElements[3])
+    #mainPExtras = separaInfo(arrElements[1])
+    #completionist = separaInfo(arrElements[2])
+   # speedRun = separaInfo(arrElements[3])
 
-    arrInfo = [mainStory,mainPExtras,completionist,speedRun]
+    #arrInfo = [mainStory,mainPExtras,completionist,speedRun]
+    arrInfo = mainStory
     return arrInfo
 
 #Do the web scrapping and return the information in an array
@@ -40,7 +40,10 @@ def extraeTiempoPasar(url):
     req = requests.get(url,headers = userAgent)
     soup = bs(req.text,'html.parser')
     times = soup.find_all('li',attrs = {"class":"short time_100"})
-    
+   
+    if(len(times) == 0):
+        times = soup.find_all('li',attrs = {"class":"short time_50"})
+
     arrInfo = creaArrInfo(times)
 
     return arrInfo
